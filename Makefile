@@ -13,6 +13,10 @@ LHS_DIR	=		$(LFT_DIR)
 
 # ------------  SOURCE FILES  ------------------------------------------------ #
 SRC_FLS	=		main.c \
+				tools.c \
+				parse.c \
+				init.c \
+				code.c
 				
 
 # ------------  FILEPATHS  --------------------------------------------------- #
@@ -40,7 +44,7 @@ $(LFT_DIR)/$(LFT):
 
 -include $(DEPS)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLGS) -g -c -o $@ $< $(IFLGS)
+	@$(CC) -g -c -o $@ $< $(IFLGS)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)

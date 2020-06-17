@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/15 12:09:31 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/17 12:05:46 by anastasiase      ###   ########.fr       */
+/*   Created: 2020/06/16 12:20:49 by anastasiase       #+#    #+#             */
+/*   Updated: 2020/06/17 15:51:00 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "disasm.h"
 
-int			main(int argc, char **argv)
+t_dasm			*init_dasm()
 {
-	t_dasm	*dasm;
+	t_dasm		*dasm;
 
-	dasm = init_dasm();
-	parse_all(argc, argv, dasm);
+	if (!(dasm = (t_dasm *)malloc(sizeof(t_dasm))))
+	dasm->com = NULL;
+	dasm->code = NULL;
+	dasm->comment = NULL;
+	dasm->name = NULL;
+	dasm->size = 0;
+	dasm->in = 0;
+	return (dasm);
 }

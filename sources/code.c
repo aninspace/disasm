@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/15 12:09:31 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/17 12:05:46 by anastasiase      ###   ########.fr       */
+/*   Created: 2020/06/16 17:46:53 by anastasiase       #+#    #+#             */
+/*   Updated: 2020/06/16 18:00:03 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "disasm.h"
 
-int			main(int argc, char **argv)
+void				transfer_operation(t_dasm *dasm)
 {
-	t_dasm	*dasm;
-
-	dasm = init_dasm();
-	parse_all(argc, argv, dasm);
+	
 }
