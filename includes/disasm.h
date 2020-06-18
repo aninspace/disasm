@@ -6,7 +6,7 @@
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 11:41:45 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/17 15:51:57 by anastasiase      ###   ########.fr       */
+/*   Updated: 2020/06/18 20:02:21 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@
 # include <stdint.h>
 # include "./libft.h"
 # include "dop.h"
-# define ARG_TYPE	(int[]){0, 1, 1, 1, 1, 1, 1 ,1, 0, 1, 1, 0, 1, 1, 0, 1};
-# define AM_ARG		(int[]){1, 2, 2, 3, 3, 3, 3, 3, 1, 3, 3, 1, 2, 3, 1, 1};
-# define SIZE_DIR	(int[]){4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 2, 2, 4, 2, 2, 4};
 
 typedef struct			s_com
 {
-	t_op				*op;
 	char				*name;
-	char				**arg;
+	int					*arg;
+	uint8_t				args_typ;
+	int					*t_arg;
+	bool				type;
+	int					am_arg;
+	int					dir_size;
 	struct s_com		*next;
 }						t_com;
 
@@ -41,13 +42,21 @@ typedef struct			s_dasm
 	t_com				*com;
 	char				*name;
 	char				*comment;
-	int					size;
+	int					code_size;
 	uint8_t				*code;
+	char				*file_name;
 	int					in;
+	t_com				*head;
 }						t_dasm;
 
 int						bytecode_to_int(unsigned char *s, int size);
 void					parse_all(int argc, char **argv, t_dasm *dasm);
 t_dasm					*init_dasm();
+t_com					*init_new_node();
+void					transfer_operation(t_dasm *dasm);
+bool					init_command(uint8_t op, t_com **com);
+char					**init_arg(int len);
+void					take_name(char *argv, t_dasm *dasm);
+void					put_operation_in_file(t_dasm *dasm);
 
 #endif

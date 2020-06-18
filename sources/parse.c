@@ -6,7 +6,7 @@
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 11:32:46 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/17 12:05:42 by anastasiase      ###   ########.fr       */
+/*   Updated: 2020/06/18 20:13:32 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void			parse_magic(int fd)
 {
+	// printf("fd %d\n", fd);
 	uint8_t		buf[4];
 	int			size;
 	int			res;
@@ -25,7 +26,7 @@ void			parse_magic(int fd)
 		exit(EXIT_FAILURE);
 	}
 	res = bytecode_to_int(buf, 4);
-	printf("%d\n", res);
+	// printf("%d\n", res);
 	if (res != COREWAR_EXEC_MAGIC)
 	{
 		ft_putstr("Wrong magic number\n");
@@ -35,10 +36,14 @@ void			parse_magic(int fd)
 
 void			parse_name(int fd, t_dasm *dasm)
 {
-	char		buf[PROG_NAME_LENGTH];
+	char		*buf;
 	int			size;
 
-	size = read(fd, &buf, PROG_NAME_LENGTH);
+	buf = (char *)ft_memalloc(sizeof(char) * PROG_NAME_LENGTH + 1);
+	// buf[PROG_NAME_LENGTH + 1] = '\0';
+	size = read(fd, buf, PROG_NAME_LENGTH);
+	printf("size %d\n", size);
+	printf("index check %d\n", dasm->in);
 	if (size == -1)
 	{
 		ft_putstr("Couldn't read the file\n");
@@ -66,7 +71,7 @@ void			parse_null(int fd)
 		ft_putrstr("no null\n");
 		exit(EXIT_FAILURE);
 	}
-	printf("null %d\n", res);
+	// printf("null %d\n", res);
 }
 
 void			parse_code_size(int fd, t_dasm *dasm)
@@ -82,43 +87,42 @@ void			parse_code_size(int fd, t_dasm *dasm)
 		exit(EXIT_FAILURE);
 	}
 	res = bytecode_to_int(buf, 4);
-	printf("%d\n", res);
+	// printf("%d\n", res);
 	if (res > CHAMP_MAX_SIZE)
 	{
 		ft_putstr("Wrong champion code size\n");
 		exit(EXIT_FAILURE);
 	}
-	dasm->size = res;
+	dasm->code_size = res;
 }
 
 void			parse_comment(int fd, t_dasm *dasm)
 {
-	char		buf[COMMENT_LENGTH];
+	char		*buf = ft_strnew(COMMENT_LENGTH);
 	int			size;
 
-	size = read(fd, &buf, COMMENT_LENGTH);
+	size = read(fd, buf, COMMENT_LENGTH);
 	if (size == -1)
 	{
 		ft_putstr("Couldn't read the file\n");
 		exit(EXIT_FAILURE);
 	}
 	dasm->comment = ft_strdup(buf);
-	printf("%s\n", dasm->comment);
+	// printf("%s\n", dasm->comment);
 }
 
 void			parse_code(int fd, t_dasm *dasm)
 {
-	uint8_t		buf[dasm->size];
+	uint8_t		*buf = ft_memalloc(dasm->code_size);
 	int			size;
 
-	size = read(fd, &buf, dasm->size);
-	if (size != dasm->size)
+	size = read(fd, buf, dasm->code_size);
+	if (size != dasm->code_size)
 	{
 		ft_putstr("code has a wrong size\n");
 		exit(EXIT_FAILURE);
 	}
 	dasm->code = buf;
-	printf("code %d\n", dasm->code[324]);
 }
 
 void			parse_all(int argc, char **argv, t_dasm *dasm)
