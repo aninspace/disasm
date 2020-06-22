@@ -6,82 +6,71 @@
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 11:19:25 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/18 19:52:56 by anastasiase      ###   ########.fr       */
+/*   Updated: 2020/06/22 16:02:03 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "disasm.h"
 
-int				bytecode_to_int(unsigned char *s, int size)
-{
-	int			i;
-	unsigned	tmp;
-	int			res;
-
-	i = 0;
-	tmp = 0;
-	while (i < size)
-	{
-		tmp = tmp << 8;
-		tmp |= s[i];
-		i++;
-	}
-	if (size == 1)
-	{
-		// printf("char\n");
-		res = (char)tmp;
-	}
-	else if (size == 2)
-	{
-		// printf("short\n");
-		res = (short)tmp;
-	}
-	else
-	{
-		res = (int)tmp;
-	}
-	return (res);
-}
-
 void			take_name(char *argv, t_dasm *dasm)
 {
-	char	*name;
-	char	**tmp;
+	char		*name;
+	char		**tmp;
+	int			i;
 
-	// if (ft_strlen(s) < 1)
-		// exit(!!ft_printf_fd(2, "ERROR: output file name not defined\n"));
+	if (ft_strlen(argv) < 1)
+	{
+		ft_putstr("no file name\n");
+		exit(EXIT_FAILURE);
+	}
 	tmp = ft_strsplit(argv, '.');
-	// printf("tmp %s\n", tmp[0]);
 	if (ft_strlen(tmp[0]) > 0)
 		name = ft_strjoin(tmp[0], ".s");
 	else
 		name = ft_strdup(".s");
-	// if (ft_strlen(name) < 1)
-		// exit(!!f/t_printf_fd(2, "ERROR: output file name couldn't be set\n"));
 	ft_free_arr(tmp);
 	tmp = ft_strsplit(name, '/');
-	int i = 0;
+	i = 0;
 	while (tmp[i])
-	{
 		i++;
-	}
 	free(name);
 	name = ft_strdup(tmp[i - 1]);
 	dasm->file_name = ft_strdup(name);
-	printf("name %s\n", name);
+	ft_free_arr(tmp);
+	free(name);
 }
 
 char			choose_arg_code(t_com *com, int i)
 {
-	// int			i;
-
-	// i = 0;
 	if (com->t_arg[i] == 1)
 		return ('r');
 	if (com->t_arg[i] == 2)
 		return ('%');
 	if (com->t_arg[i] == 3)
 		return (' ');
+	return ('\0');
+}
+
+void			fill_operations(t_dasm *dasm, int fd)
+{
+	int			i;
+
+	while (dasm->com)
+	{
+		ft_putstr_fd(dasm->com->name, fd);
+		ft_putchar_fd(' ', fd);
+		i = 0;
+		while (i < dasm->com->am_arg)
+		{
+			ft_putchar_fd(choose_arg_code(dasm->com, i), fd);
+			ft_putnbr_fd(dasm->com->arg[i], fd);
+			if (i + 1 != dasm->com->am_arg)
+				ft_putstr_fd(", ", fd);
+			i++;
+		}
+		ft_putchar_fd('\n', fd);
+		dasm->com = dasm->com->next;
+	}
 }
 
 void			put_operation_in_file(t_dasm *dasm)
@@ -89,10 +78,8 @@ void			put_operation_in_file(t_dasm *dasm)
 	int			fd;
 	int			i;
 
-	// dasm->com = dasm->head;
-	// printf("command %s\n", (*com)->name);
+	dasm->com = dasm->head;
 	fd = open(dasm->file_name, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	i = 0;
 	if (fd < 3)
 	{
 		ft_putstr("file wasn't created\n");
@@ -100,21 +87,35 @@ void			put_operation_in_file(t_dasm *dasm)
 	}
 	ft_putstr_fd(".name	", fd);
 	ft_putendl_fd(dasm->name, fd);
-	// ft_putchar_fd('\n', fd);
 	ft_putstr_fd(".comment	", fd);
 	ft_putendl_fd(dasm->comment, fd);
-	// ft_putchar_fd('\n', fd);
-	while (dasm->com)
+	fill_operations(dasm, fd);
+}
+
+int32_t			bytecode_to_int(uint8_t *bytecode, size_t size)
+{
+	int32_t		result;
+	bool		sign;
+	int			i;
+
+	result = 0;
+	sign = (bool)(bytecode[0] & 0x80);
+	i = 0;
+	while (size)
 	{
-		ft_putstr_fd(dasm->com->name, fd);
-		while (i < dasm->com->am_arg)
+		if (sign)
 		{
-			ft_putchar_fd(choose_arg_code(dasm->com, i), fd);
-			ft_putnbr_fd(dasm->com->arg[i], fd);
-			if (i + 1 != dasm->com->am_arg)
-				ft_putchar_fd(',', fd);
+			result += ((bytecode[size - 1] ^ 0xFF) << (i * 8));
+			i++;
 		}
-		ft_putchar_fd('\n', fd);
-		dasm->com = dasm->com->next;
+		else
+		{
+			result += bytecode[size - 1] << (i * 8);
+			i++;
+		}
+		size--;
 	}
+	if (sign)
+		result = ~(result);
+	return (result);
 }

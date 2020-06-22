@@ -6,7 +6,7 @@ SRC_DIR	=		sources
 HDR_DIR	=		includes
 OBJ_DIR	=		objs
 
-# ------------  LIBFT  ------------------------------------------------------- #
+# ------------  LIBFT  --------50--------------------------------------------- #
 LFT		=		libft.a
 LFT_DIR	=		libft
 LHS_DIR	=		$(LFT_DIR)
@@ -16,7 +16,10 @@ SRC_FLS	=		main.c \
 				tools.c \
 				parse.c \
 				init.c \
-				code.c
+				code.c \
+				free.c \
+				parse_tools.c \
+				extra_init.c
 				
 
 # ------------  FILEPATHS  --------------------------------------------------- #

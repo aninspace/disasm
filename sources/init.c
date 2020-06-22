@@ -6,27 +6,29 @@
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 12:20:49 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/18 13:49:25 by anastasiase      ###   ########.fr       */
+/*   Updated: 2020/06/22 15:36:55 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "disasm.h"
 
-t_dasm			*init_dasm()
+t_dasm			*init_dasm(void)
 {
 	t_dasm		*dasm;
 
 	if (!(dasm = (t_dasm *)malloc(sizeof(t_dasm))))
+		exit(EXIT_FAILURE);
 	dasm->com = NULL;
 	dasm->code = NULL;
 	dasm->comment = NULL;
 	dasm->name = NULL;
 	dasm->code_size = 0;
 	dasm->in = 0;
+	dasm->head = 0;
 	return (dasm);
 }
 
-t_com			*init_new_node()
+t_com			*init_new_node(void)
 {
 	t_com		*node;
 
@@ -37,15 +39,6 @@ t_com			*init_new_node()
 	node->next = NULL;
 	node->t_arg = NULL;
 	return (node);
-}
-
-char			**init_arg(int len)
-{
-	char		**arg;
-
-	if (!(arg = (char **)malloc(sizeof(char *) * len + 1)))
-		exit(EXIT_FAILURE);
-	return (arg);
 }
 
 bool			init_command(uint8_t op, t_com **com)
@@ -61,110 +54,16 @@ bool			init_command(uint8_t op, t_com **com)
 		}
 		if (op == 0x02)
 		{
-			// printf("hello\n");
 			(*com)->name = ft_strdup("ld");
 			(*com)->type = true;
 			(*com)->am_arg = 2;
 			(*com)->dir_size = 4;
 		}
-		if (op == 0x03)
-		{
-			(*com)->name = ft_strdup("st");
-			(*com)->type = true;
-			(*com)->am_arg = 2;
-			(*com)->dir_size = 4;
-		}
-		if (op == 0x04)
-		{
-			(*com)->name = ft_strdup("add");
-			(*com)->type = true;
-			(*com)->am_arg = 3;
-			(*com)->dir_size = 4;
-		}
-		if (op == 0x05)
-		{
-			(*com)->name = ft_strdup("sub");
-			(*com)->type = true;
-			(*com)->am_arg = 3;
-			(*com)->dir_size = 4;
-		}
-		if (op == 0x06)
-		{
-			(*com)->name = ft_strdup("and");
-			(*com)->type = true;
-			(*com)->am_arg = 3;
-			(*com)->dir_size = 4;
-		}
-		if (op == 0x07)
-		{
-			(*com)->name = ft_strdup("or");
-			(*com)->type = true;
-			(*com)->am_arg = 3;
-			(*com)->dir_size = 4;
-		}
-		if (op == 0x08)
-		{
-			(*com)->name = ft_strdup("xor");
-			(*com)->type = true;
-			(*com)->am_arg = 3;
-			(*com)->dir_size = 4;
-		}
-		if (op == 0x09)
-		{
-			(*com)->name = ft_strdup("zjmp");
-			(*com)->type = false;
-			(*com)->am_arg = 1;
-			(*com)->dir_size = 2;
-		}
-		if (op == 0x0a)
-		{
-			(*com)->name = ft_strdup("ldi");
-			(*com)->type = true;
-			(*com)->am_arg = 3;
-			(*com)->dir_size = 2;
-		}
-		if (op == 0x0b)
-		{
-			(*com)->name = ft_strdup("sti");
-			(*com)->type = true;
-			(*com)->am_arg = 3;
-			(*com)->dir_size = 2;
-		}
-		if (op == 0x0c)
-		{
-			(*com)->name = ft_strdup("fork");
-			(*com)->type = false;
-			(*com)->am_arg = 1;
-			(*com)->dir_size = 2;
-		}
-		if (op == 0x0d)
-		{
-			(*com)->name = ft_strdup("lld");
-			(*com)->type = true;
-			(*com)->am_arg = 2;
-			(*com)->dir_size = 4;
-		}
-		if (op == 0x0e)
-		{
-			(*com)->name = ft_strdup("lldi");
-			(*com)->type = true;
-			(*com)->am_arg = 3;
-			(*com)->dir_size = 2;
-		}
-		if (op == 0x0f)
-		{
-			(*com)->name = ft_strdup("lfork");
-			(*com)->type = false;
-			(*com)->am_arg = 1;
-			(*com)->dir_size = 2;
-		}
-		if (op == 0x10)
-		{
-			(*com)->name = ft_strdup("aff");
-			(*com)->type = true;
-			(*com)->am_arg = 1;
-			(*com)->dir_size = 4;
-		}
+		init_command1(op, com);
+		init_command2(op, com);
+		init_command3(op, com);
+		init_command4(op, com);
+		init_command5(op, com);
 		return (true);
 	}
 	return (false);

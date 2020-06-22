@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/15 12:09:31 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/22 15:37:46 by anastasiase      ###   ########.fr       */
+/*   Created: 2020/06/22 12:58:51 by anastasiase       #+#    #+#             */
+/*   Updated: 2020/06/22 13:01:36 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "disasm.h"
 
-int			main(int argc, char **argv)
+void			free_all(t_dasm *dasm)
 {
-	t_dasm	*dasm;
-
-	dasm = init_dasm();
-	printf("index %d\n", dasm->in);
-	parse_all(argc, argv, dasm);
-	transfer_operation(dasm);
-	take_name(argv[argc - 1], dasm);
-	put_operation_in_file(dasm);
-	// free_all(dasm);
-	// sleep(10000);
+	while (dasm->com)
+	{
+		free(dasm->com->arg);
+		free(dasm->com->name);
+		free(dasm->com->t_arg);
+		free(dasm->com);
+		dasm->com = dasm->com->next;
+	}
+	free(dasm->com);
+	dasm->com = NULL;
+	free(dasm->code);
+	free(dasm->comment);
+	free(dasm->file_name);
+	free(dasm->head);
+	free(dasm->name);
+	free(dasm);
 }
