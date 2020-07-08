@@ -17,7 +17,6 @@ SRC_FLS	=		main.c \
 				parse.c \
 				init.c \
 				code.c \
-				free.c \
 				parse_tools.c \
 				extra_init.c
 				

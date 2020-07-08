@@ -6,7 +6,7 @@
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/16 11:19:25 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/22 16:02:03 by anastasiase      ###   ########.fr       */
+/*   Updated: 2020/07/08 20:05:47 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,27 +95,23 @@ void			put_operation_in_file(t_dasm *dasm)
 int32_t			bytecode_to_int(uint8_t *bytecode, size_t size)
 {
 	int32_t		result;
-	bool		sign;
+	int			neg;
 	int			i;
 
 	result = 0;
-	sign = (bool)(bytecode[0] & 0x80);
+	neg = 0;
+	if ((bytecode[0] & 0x80) != 0)
+		neg = 1;
 	i = 0;
 	while (size)
 	{
-		if (sign)
-		{
-			result += ((bytecode[size - 1] ^ 0xFF) << (i * 8));
-			i++;
-		}
+		if (neg)
+			result += ((bytecode[size - 1] ^ 0xFF) << (i++ * 8));
 		else
-		{
-			result += bytecode[size - 1] << (i * 8);
-			i++;
-		}
+			result += bytecode[size - 1] << (i++ * 8);
 		size--;
 	}
-	if (sign)
+	if (neg)
 		result = ~(result);
 	return (result);
 }
