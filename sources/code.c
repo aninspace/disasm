@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   code.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
+/*   By: fmelda <fmelda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/16 17:46:53 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/22 15:55:22 by anastasiase      ###   ########.fr       */
+/*   Created: 2019/04/08 13:29:11 by fmelda            #+#    #+#             */
+/*   Updated: 2019/04/12 16:28:42 by fmelda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void				transfer_operation(t_dasm *dasm)
 			ft_putstr("wrong operation\n");
 			exit(EXIT_FAILURE);
 		}
-		printf("name %s\n", dasm->com->name);
 		init_arg_type(dasm);
 	}
 }

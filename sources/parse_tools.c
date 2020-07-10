@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_tools.c                                      :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
+/*   By: fmelda <fmelda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/22 13:26:17 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/22 15:55:22 by anastasiase      ###   ########.fr       */
+/*   Created: 2019/04/08 13:29:11 by fmelda            #+#    #+#             */
+/*   Updated: 2019/04/12 16:28:42 by fmelda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void			parse_name(int fd, t_dasm *dasm)
 	}
 	dasm->name = ft_strdup(buf);
 	free(buf);
-	printf("%s\n", dasm->name);
 }
 
 void			parse_null(int fd)

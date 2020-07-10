@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/15 11:41:45 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/06/22 15:55:39 by anastasiase      ###   ########.fr       */
+/*   Created: 2019/04/08 13:29:11 by fmelda            #+#    #+#             */
+/*   Updated: 2020/07/10 15:23:09 by anastasiase      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ void					init_command2(uint8_t op, t_com **com);
 void					init_command3(uint8_t op, t_com **com);
 void					init_command4(uint8_t op, t_com **com);
 void					init_command5(uint8_t op, t_com **com);
+void					free_all(t_dasm *dasm);
+
 
 #endif

@@ -18,7 +18,8 @@ SRC_FLS	=		main.c \
 				init.c \
 				code.c \
 				parse_tools.c \
-				extra_init.c
+				extra_init.c \
+				free.c
 				
 
 # ------------  FILEPATHS  --------------------------------------------------- #

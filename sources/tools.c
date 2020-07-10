@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anastasiaseliseva <anastasiaseliseva@st    +#+  +:+       +#+        */
+/*   By: fmelda <fmelda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/16 11:19:25 by anastasiase       #+#    #+#             */
-/*   Updated: 2020/07/08 20:05:47 by anastasiase      ###   ########.fr       */
+/*   Created: 2019/04/08 13:29:11 by fmelda            #+#    #+#             */
+/*   Updated: 2019/04/12 16:28:42 by fmelda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,12 @@ void			put_operation_in_file(t_dasm *dasm)
 		ft_putstr("file wasn't created\n");
 		exit(EXIT_FAILURE);
 	}
-	ft_putstr_fd(".name	", fd);
-	ft_putendl_fd(dasm->name, fd);
-	ft_putstr_fd(".comment	", fd);
-	ft_putendl_fd(dasm->comment, fd);
+	ft_putstr_fd(".name	\"", fd);
+	ft_putstr_fd(dasm->name, fd);
+	ft_putstr_fd("\"\n", fd);
+	ft_putstr_fd(".comment	\"", fd);
+	ft_putstr_fd(dasm->comment, fd);
+	ft_putstr_fd("\"\n", fd);
 	fill_operations(dasm, fd);
 }
 
